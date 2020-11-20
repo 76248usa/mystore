@@ -16,11 +16,21 @@
       <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
       <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
+      <script src="{{asset('admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+      <script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
       <script type="text/javascript">
         function confirmDelete(){
         return confirm('Are you sure you want to delete?');
         }
     </script>
+
+    <script>
+            $(document).ready(function () {
+              $('#dataTable').DataTable(); // ID From dataTable
+              $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+            });
+          </script>
         <script type="text/javascript">
         $(document).ready(function() {
             $('#summernote').summernote();

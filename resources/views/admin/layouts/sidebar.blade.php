@@ -52,6 +52,23 @@
               </li>
 
 
+              <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap3"
+                      aria-expanded="true" aria-controls="collapseBootstrap">
+                      <i class="far fa-fw fa-window-maximize"></i>
+                      <span>Products</span>
+                    </a>
+                    <div id="collapseBootstrap3" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                      <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Products</h6>
+                        <a class="collapse-item" href="{{ route('product.index') }}">View</a>
+                        <a class="collapse-item" href="{{ route('product.create') }}">Create</a>
+
+                      </div>
+                    </div>
+                  </li>
+
+
         <li class="nav-item">
           <a class="nav-link" href="forms.html">
             <i class="fab fa-fw fa-wpforms"></i>
@@ -98,12 +115,57 @@
             </div>
           </div>
         </li>
-        <li class="nav-item">
+
+
+        <!--<li class="nav-item">
           <a class="nav-link" href="charts.html">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span>
+            <span>Logout</span>
+
+            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    {{ Auth::user()->name }}
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
           </a>
-        </li>
+        </li>-->
+
+
+
+        <li class="nav-item">
+
+
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                                                       onclick="event.preventDefault();
+                                                                     document.getElementById('logout-form').submit();">
+                                                             <i class="fas fa-sign-out-alt"></i>
+                 Logout
+
+                                                    </a>
+
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                    </form>
+
+
+
+                      </li>
+
+
+
+
+
+
+
         <hr class="sidebar-divider">
         <div class="version" id="version-ruangadmin"></div>
       </ul>

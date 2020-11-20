@@ -13,27 +13,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//return view('welcome');
+//});
+
+Route::get('/', 'FrontProductListController@index');
+Route::get('/product/{id}', 'FrontProductListController@show');
+
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/index', function () {
-    return view('admin.dashboard');
-});
+//Route::get('/index', function () {
+//return view('admin.dashboard');
+//});
 
-Route::get('/index/test', function () {
-    return view('test');
-});
 
-Route::resource('category', 'CategoryController');
-Route::post('category/{id}', 'CategoryController@update');
 
-Route::resource('subcategory', 'Subcategorycontroller');
-Route::post('subcategory/{id}', 'Subcategorycontroller@update');
+Route::group(
+    ['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']],
+    function () {
+        Route::resource('category', 'CategoryController');
+        Route::post('category/{id}', 'CategoryController@update');
 
-Route::resource('product', 'ProductController');
+        Route::resource('subcategory', 'Subcategorycontroller');
+        Route::post('subcategory/{id}', 'Subcategorycontroller@update');
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        });
+
+        Route::resource('product', 'ProductController');
+    }
+);
+
 Route::get('subcategories/{id}', 'ProductController@loadSubcategories');

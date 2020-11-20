@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Subcategory;
+use App\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -14,7 +16,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+
+        return view('admin.product.index', compact('products'));
     }
 
     /**
@@ -39,6 +43,22 @@ class ProductController extends Controller
             'additional_info' => 'required',
             'category' => 'required'
         ]);
+
+        $image = $request->file('image')->store('public/product');
+
+        Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $image,
+            'price' => $request->price,
+            'additional_info' => $request->additional_info,
+            'category_id' => $request->category,
+            'subcategory_id' => $request->subcategory,
+
+        ]);
+
+        notify()->success('Product created successfully');
+        return redirect()->route('product.index');
     }
 
     public function loadSubcategories(Request $request, $id)
@@ -66,7 +86,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('admin.product.edit', compact('product'));
     }
 
     /**
@@ -76,9 +97,53 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /*public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $image = $product->image;
+        if ($request->image) {
+            $image = $request->file('image')->store('public/product');
+            Storage::delete($product->image);
+        }
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->additional_info = $request->additional_info;
+        $product->price = $request->price;
+        $product->image = $image;
+        $product->save();
+        notify()->success('Product updated successfully');
+        return redirect()->route('product.index')->with('message', 'Product updated successfully');
+    }*/
+
+
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        $filename = $product->image;
+        if ($request->file('image')) {
+            $image = $request->file('image')->store('public/product');
+            Storage::delete($filename);
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->image = $image;
+            $product->price = $request->price;
+            $product->additional_info = $request->additional_info;
+            $product->category_id = $request->category;
+            $product->subcategory_id = $request->subcategory;
+            $product->save();
+        } else {
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->additional_info = $request->additional_info;
+            $product->category_id = $request->category;
+            $product->subcategory_id = $request->subcategory;
+
+
+            $product->save();
+        }
+        notify()->success('Product updated successfully!');
+        return redirect()->route('product.index');
     }
 
     /**
@@ -89,6 +154,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $filename = $product->image;
+        $product->delete();
+        Storage::delete($filename);
+        notify()->success('Product deleted successfully');
+        return redirect()->route('product.index');
     }
 }
