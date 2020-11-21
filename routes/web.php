@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/', 'FrontProductListController@index');
-Route::get('/product/{id}', 'FrontProductListController@show');
+Route::get('/product/{id}', 'FrontProductListController@show')->name('product.view');
 
 
 

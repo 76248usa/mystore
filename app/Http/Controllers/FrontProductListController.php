@@ -10,18 +10,6 @@ class FrontProductListController extends Controller
 {
     public function index()
     {
-        /*$products = Product::latest()->limit(9)->get();
-        $randomActiveProducts = Product::inRandomOrder()->limit(3)->get();
-
-        $randomActiveProductIds = [];
-        foreach ($randomActiveProducts as $product) {
-            array_push($randomActiveProductIds, $product->id);
-        }
-        //dd($randomActiveProductIds);
-        $randomItemProducts = Product::where('id', '!=', $randomActiveProductIds)->limit(3)->get();
-
-        //dd($randomItemProducts);
-        return view('product', compact('products', 'randomItemProducts', 'randomActiveProducts'));*/
 
 
         $products =  Product::latest()->limit(9)->get();
@@ -40,6 +28,8 @@ class FrontProductListController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('show', compact('product'));
+        $productFromSameCategories = Product::inRandomOrder()->where('category_id', $product->category_id)->where('id', '!=', $product->id)->limit(3)->get();
+        //return $productFromSameCategories;
+        return view('show', compact('product', 'productFromSameCategories'));
     }
 }
