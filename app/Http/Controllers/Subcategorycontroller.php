@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Subcategory;
+use Illuminate\Support\Str;
 
 class Subcategorycontroller extends Controller
 {
@@ -38,14 +39,17 @@ class Subcategorycontroller extends Controller
     {
         $this->validate($request, [
             'name' => 'required|min:3',
-            'category' => 'required'
+            'category' => 'required',
+
 
         ]);
         Subcategory::create([
             'name' => $request->name,
-            'category_id' => $request->category
+            'category_id' => $request->category,
+            'slug' => Str::slug($request->name),
         ]);
-        notify()->success('Subcategory created successfully');
+
+        session()->flash('error', 'Subcategory created successfully');
         return redirect()->back();
     }
 
@@ -90,8 +94,8 @@ class Subcategorycontroller extends Controller
         $subcategory->name = $request->name;
         $subcategory->category_id = $request->category;
         $subcategory->save();
+        session()->flash('error', 'Subcategory updated successfully');
 
-        notify()->success('Subcategory updated successfully');
         return redirect()->route('subcategory.index');
     }
 
@@ -105,8 +109,8 @@ class Subcategorycontroller extends Controller
     {
         $subcategory = Subcategory::findOrFail($id);
         $subcategory->delete();
+        session()->flash('error', 'Subcategory deleted successfully');
 
-        notify()->success('Subcategory deleted successfully');
         return redirect()->route('subcategory.index');
     }
 }

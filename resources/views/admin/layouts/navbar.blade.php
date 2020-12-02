@@ -181,4 +181,8 @@
             </div>
           </li>
         </ul>
+
+        @if (session('error'))
+        <div class="col-md-3 alert alert-warning">{{ session('error') }}</div>
+        @endif
       </nav>

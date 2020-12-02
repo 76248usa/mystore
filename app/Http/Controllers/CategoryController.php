@@ -52,7 +52,8 @@ class CategoryController extends Controller
             'image' => $image
 
         ]);
-        notify()->success('Category created successfully');
+
+        session()->flash('error', 'Category created successfully');
         return redirect()->route('category.index')->with('message', 'Category created successfully');
     }
 
@@ -98,7 +99,8 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->image = $image;
         $category->save();
-        notify()->success('Category update successfully');
+
+        session()->flash('error', 'Category updated successfully');
         return redirect()->route('category.index')->with('message', 'Category updated successfully');
     }
 
@@ -114,7 +116,8 @@ class CategoryController extends Controller
         $filename = $category->image;
         $category->delete();
         Storage::delete($filename);
-        notify()->success('Category deleted successfully');
+
+        session()->flash('error', 'Category deleted successfully');
         return redirect()->route('category.index');
     }
 }

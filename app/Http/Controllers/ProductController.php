@@ -57,7 +57,7 @@ class ProductController extends Controller
 
         ]);
 
-        notify()->success('Product created successfully');
+        session()->flash('error', 'Product created successfully');
         return redirect()->route('product.index');
     }
 
@@ -142,7 +142,7 @@ class ProductController extends Controller
 
             $product->save();
         }
-        notify()->success('Product updated successfully!');
+        session()->flash('error', 'Product updated successfully');
         return redirect()->route('product.index');
     }
 
@@ -158,7 +158,7 @@ class ProductController extends Controller
         $filename = $product->image;
         $product->delete();
         Storage::delete($filename);
-        notify()->success('Product deleted successfully');
+        session()->flash('error', 'Cart updated successfully');
         return redirect()->route('product.index');
     }
 }

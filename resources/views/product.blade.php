@@ -17,7 +17,9 @@
 
   <h2>Category</h2>
   @foreach(App\Category::all() as $cat)
-    <button class="btn btn-secondary">{{ $cat->name }}</button>
+    <a href="{{ route('product.list', [$cat->slug]) }}">
+    <button class="btn btn-secondary">{{ $cat->name }}</button></a>
+
   @endforeach
 
   <div class="album py-5 bg-light">
@@ -34,12 +36,13 @@
 
             <div class="card-body">
                 <p><b>{{ $product->name }}</b></p>
-              <p class="card-text">{!! (Str::limit($product->description, 120)) !!}</p>
+
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <a href = "product/{{ $product->id }}"><button type="button" class="btn btn-sm btn-outline-success">View</button></a>
-                  <button type="button" class="btn btn-sm btn-outline-primary">Edit</button>
-                </div>
+                  <a href = "{{ route('add.cart', [$product->id])}}"><button type="button" class="btn btn-sm btn-outline-success">Add to cart</button></a>
+                  <a href="{{route('product.view',[$product->id])}}">
+                  <button type="button" class="btn btn-sm btn-outline-primary">View</button>
+                </div></a>
                 <small class="text-muted">${{ $product->price }}</small>
               </div>
             </div>
@@ -66,7 +69,9 @@
             @foreach($randomActiveProducts as $product)
             <div class="col-4">
                         <div class="card mb-4 shadow-sm">
+                                <a href="{{route('product.view',[$product->id])}}">
                 <img src="{{Storage::url($product->image)}}" height="200" style="width: 100%">
+                                </a>
                 <div class="card-body">
                     <p><b>{{$product->name}}</b></p>
                   <p class="card-text">
@@ -74,9 +79,11 @@
                   </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
+                    <a href="{{route('product.view',[$product->id])}}">
                       <button type="button" class="btn btn-sm btn-outline-success">View</button>
-                <a href="#">
-                <a href="#">  <button type="button" class="btn btn-sm btn-outline-primary">Add to cart</button></a>
+                    </a>
+
+                <a href = "{{ route('add.cart', [$product->id])}}">  <button type="button" class="btn btn-sm btn-outline-primary">Add to cart</button></<a>
                 </a>
                     </div>
                     <small class="text-muted">${{$product->price}}</small>
@@ -102,8 +109,8 @@
                   </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                    <a href="#">  <button type="button" class="btn btn-sm btn-outline-success">View</button></a>
-                     <a href="#">
+                            <a href="{{route('product.view',[$product->id])}}">  <button type="button" class="btn btn-sm btn-outline-success">View</button></a>
+                     <a href="{{ route('add.cart', [$product->id])}}">
                     <button type="button" class="btn btn-sm btn-outline-primary">Add to cart</button></a>
                     </div>
                     <small class="text-muted">${{$product->price}}</small>
@@ -118,16 +125,22 @@
 
 
       </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+
     </div>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </main>
 <footer class="text-muted">
@@ -141,4 +154,13 @@
 </footer>
 </div>
 @endsection
+
+
+
+
+
+
+
+
+
 

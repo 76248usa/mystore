@@ -20,17 +20,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'FrontProductListController@index');
 Route::get('/product/{id}', 'FrontProductListController@show')->name('product.view');
 
+Route::get('/category/{name}', 'FrontProductListController@allProduct')->name('product.list');
+Route::get('/', 'FrontProductListController@index');
+Route::get('/subcategory/{name}', 'FrontProductListController@allSubcategory')->name('subcategory.list');
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-//Route::get('/index', function () {
-//return view('admin.dashboard');
-//});
-
-
 
 Route::group(
     ['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']],
@@ -49,3 +46,12 @@ Route::group(
 );
 
 Route::get('subcategories/{id}', 'ProductController@loadSubcategories');
+
+Route::get('/addToCart/{product}', 'CartController@addToCart')->name('add.cart');
+
+Route::get('/cart', 'CartController@showCart')->name('cart.show');
+Route::post('products/{product}', 'CartController@updateCart')->name('cart.update');
+Route::post('product/{product}', 'CartController@removeCart')->name('cart.remove');
+Route::get('/checkout/{amount}', 'CartController@checkout')->name('cart.checkout')->middleware('auth');
+Route::post('/charge', 'CartController@charge')->name('cart.charge');
+Route::get('/orders', 'CartController@order')->name('order')->middleware('auth');
