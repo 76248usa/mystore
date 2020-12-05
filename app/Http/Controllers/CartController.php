@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Cart;
+use App\Order;
 use App\Http\Controllers\Session;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Sendmail;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 
 class CartController extends Controller
@@ -66,8 +69,12 @@ class CartController extends Controller
 
     public function checkout($amount)
     {
-
-        return view('shop.checkout', compact('amount'));
+        if(session()->has('cart')){
+            $cart = new Cart(session()->get('cart'));
+        }else{
+            $cart = null;
+        }
+        return view('shop.checkout',compact('amount','cart'));
     }
 
     public function charge(Request $request)
@@ -82,6 +89,17 @@ class CartController extends Controller
         ]);
 
         $chargeId = $charge['id'];
+        if(session()->has('cart')){
+            $cart = new Cart(session()->get('cart'));
+        }else{
+            $cart = null;
+        }
+        Mail::to(auth()->user()->email)->send(new Sendmail($cart));
+
+
+
+
+
         if ($chargeId) {
             auth()->user()->orders()->create([
                 'cart' => serialize(session()->get('cart'))

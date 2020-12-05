@@ -122,7 +122,9 @@
 
           </div>
         </div>
-
+<center>
+    <a href="{{ route('more.product') }}"></a><button class="btn btn-success">More Products</button></a>
+</center>
 
       </div>
 

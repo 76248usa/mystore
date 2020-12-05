@@ -13,11 +13,11 @@
  				<div class="card-body">
                      @foreach($cart->items as $item)
                      <span class="float-right">
-                         <img src="{{ Storage::url($item['image']) }}" width="100">
+                         <<img src="{{ Storage::url($item['image']) }}" width="100">
                      </span>
-                     <p>Name: {{ $item['name'] }}</p>
+                     <p>Name: {{ $item['name'] }}<p/>
  					<p>Price: {{ $item['price'] }}</p>
-                     <p>Qty: </p>
+                     <p>Qty: {{$item['qty']}}</p>
                      <p>
                          <button type="button" class="btn btn-success">
                              <span class="bagde badge-light">Total price: {{ $cart->totalPrice }}</span>

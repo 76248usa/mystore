@@ -235,25 +235,18 @@
 
 
 
-
-
-
-
-
-
                   </ul>
-                  <form class="form-inline my-2 my-lg-0 top-search">
+                  <form action="{{ route('more.product') }}" method="GET" class="form-inline my-2 my-lg-0 top-search">
                      <button class="btn-link" type="submit"><i class="icofont-search"></i></button>
-                     <input class="form-control mr-sm-2" type="search"
+                     <input class="form-control mr-sm-2" type="text" name="search"
                         placeholder="Search for products, brands and more" aria-label="Search">
                   </form>
                   <ul class="navbar-nav ml-auto profile-nav-right">
-                    <li class="nav-item cart-nav">
-                        <a href="{{ route('order') }}" class="nav-link"><i class="icofont-gift-box"></i> Order</a></li>
-
-
 
                      <li class="nav-item cart-nav">
+                        @if(Auth::check())
+                       <a href="{{ route('order') }}" class="nav-link"><i class="icofont-gift-box"></i>Order</a></li>
+                        @endif
 
 
                         <a href="{{ route('cart.show') }}" class="nav-link">
@@ -262,6 +255,67 @@
                                 ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}})
                            </span>
                         </a>
+
+
+
+
+                        @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
+                    @else
+
+
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+
+                                    @if(Auth::check())
+                                    <a class="dropdown-item" href="{{ route('order') }}"> Order</a></li>
+                                    @endif
+
+
+
+                                 <li class="nav-item cart-nav">
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
+            </div>
+            @if (session('error'))
+<div class="col-md-3 alert alert-warning">{{ session('error') }}</div>
+@endif
+
+
+
+
+        </div>
+    </nav>
+
+
+
+
+
+
                      </li>
                   </ul>
                </div>

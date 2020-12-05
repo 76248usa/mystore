@@ -98,4 +98,15 @@ class FrontProductListController extends Controller
 
         return $product;
     }
+
+    public function moreProducts(Request $request){
+        if($request->search){
+          $products = Product::where('name','like', '%'.$request->search.'%')
+            ->orWhere('description','like','%'.$request->search.'%')
+            ->orWhere('additional_info','like','%'.$request->search.'%')
+
+            ->paginate(50);
+            return view('shop.all-product',compact('products'));
+        }
+    }
 }

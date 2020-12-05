@@ -74,7 +74,7 @@
 </table>
 <hr>
 @if($cart ?? '')
-Total Price:${{$cart ?? ''->totalPrice}}
+Total Price:${{$cart->totalPrice}}
 @endif
 </div>
 

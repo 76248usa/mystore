@@ -47,6 +47,7 @@
       <div class="container">
          <h6 class="mt-1 mb-0 float-right"><a href="#">View All Items</a></h6>
          <h4 class="mt-0 mb-3 text-dark font-weight-normel">Best Selling Items</h4>
+
          <div class="row">
 
 
@@ -79,7 +80,12 @@
             @endforeach
 
          </div>
+
       </div>
+
+      <center>
+        <button class="btn btn-success">More Products</button>
+    </center>
       </div>
    </section>
 
