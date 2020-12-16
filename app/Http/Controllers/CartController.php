@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Cart;
 use App\Order;
+use App\User;
 use App\Http\Controllers\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Sendmail;
@@ -96,10 +97,6 @@ class CartController extends Controller
         }
         Mail::to(auth()->user()->email)->send(new Sendmail($cart));
 
-
-
-
-
         if ($chargeId) {
             auth()->user()->orders()->create([
                 'cart' => serialize(session()->get('cart'))
@@ -125,6 +122,7 @@ class CartController extends Controller
         }
     }
 
+    //for logged in user
     public function order()
     {
         $orders = auth()->user()->orders;
@@ -133,4 +131,23 @@ class CartController extends Controller
         });
         return view('shop.order', compact('carts'));
     }
+    //for admin
+    public function userOrder(){
+        $orders = Order::latest()->get();
+        //return $orders;
+
+        return view('admin.order.index', compact('orders'));
+    }
+
+
+    public function viewUserOrder($userid,$orderid){
+        $user = User::find($userid);
+        $orders = $user->orders->where('id',$orderid);
+        $carts =$orders->transform(function($cart,$key){
+            return unserialize($cart->cart);
+
+        });
+        return view('admin.order.show',compact('carts'));
+    }
+
 }

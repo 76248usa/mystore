@@ -243,10 +243,15 @@
                   </form>
                   <ul class="navbar-nav ml-auto profile-nav-right">
 
-                     <li class="nav-item cart-nav">
-                        @if(Auth::check())
-                       <a href="{{ route('order') }}" class="nav-link"><i class="icofont-gift-box"></i>Order</a></li>
-                        @endif
+
+                <li class="nav-item cart-nav">
+                    @if(Auth::check())
+                   <a href="{{ route('order') }}" class="nav-link"><i class="icofont-gift-box"></i>Order</a> </li>
+@endif
+
+
+
+
 
 
                         <a href="{{ route('cart.show') }}" class="nav-link">
@@ -273,7 +278,7 @@
 
 
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
@@ -288,11 +293,6 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
-
-                                    @if(Auth::check())
-                                    <a class="dropdown-item" href="{{ route('order') }}"> Order</a></li>
-                                    @endif
-
 
 
                                  <li class="nav-item cart-nav">

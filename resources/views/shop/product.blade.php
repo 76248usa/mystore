@@ -1,18 +1,16 @@
 @extends('layouts.product_layout')
 @section('content')
 
-
-   <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img class="d-block w-100" src="{{ asset('images/car1.jpg') }}" alt="First slide">
+            @if($sliders)
+            @foreach($sliders as $key=>$slider)
+          <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+            <img class="d-block w-100" src="{{ Storage::url($slider->image) }}" alt="First slide">
           </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('images/carous1.jpg') }}" alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('images/carous3.jpg') }}" alt="Third slide">
-          </div>
+          @endforeach
+          @endif
+
         </div>
       </div>
 
@@ -36,12 +34,6 @@
            </div>
         </div>
      </section>
-
-
-
-
-
-
 
    <section class="product-list pbc-5 pb-4 pt-5 bg-light">
       <div class="container">

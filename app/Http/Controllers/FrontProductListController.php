@@ -12,8 +12,6 @@ class FrontProductListController extends Controller
 {
     public function index()
     {
-
-
         $products =  Product::latest()->limit(9)->get();
         $randomActiveProducts = Product::inRandomOrder()->limit(3)->get();
         $randomActiveProductIds = [];
@@ -21,10 +19,11 @@ class FrontProductListController extends Controller
             array_push($randomActiveProductIds, $product->id);
         }
         $randomItemProducts = Product::whereNotIn('id', $randomActiveProductIds)->limit(3)->get();
+        $sliders = Slider::all();
         //$sliders = Slider::get();
 
 
-        return view('shop.product', compact('products', 'randomItemProducts', 'randomActiveProducts'));
+        return view('shop.product', compact('products', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
     }
 
     public function show($id)

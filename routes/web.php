@@ -34,6 +34,11 @@ Route::group(
     function () {
         Route::resource('category', 'CategoryController');
         Route::post('category/{id}', 'CategoryController@update');
+        Route::get('slider/create', 'SliderController@create');
+        Route::resource('slider', 'Slidercontroller');
+        Route::post('slider', 'SliderController@store')->name('slider.store');
+        Route::post('slider/{id}', 'SliderController@destroy')->name('slider.destroy');
+        Route::get('sliders', 'SliderController@index');
 
         Route::resource('subcategory', 'Subcategorycontroller');
         Route::post('subcategory/{id}', 'Subcategorycontroller@update');
@@ -42,6 +47,13 @@ Route::group(
         });
 
         Route::resource('product', 'ProductController');
+
+        Route::resource('user', 'UserController');
+        //Route::get('users', 'UserController@index')->name('user.index');
+        Route::post('user/{id}', 'UserController@destroy')->name('user.destroy');
+        Route::get('/orders', 'CartController@userOrder');
+        Route::get('/orders/{id}', 'CartController@viewUserOrder')->name('user.order');
+
     }
 );
 
@@ -54,5 +66,11 @@ Route::post('products/{product}', 'CartController@updateCart')->name('cart.updat
 Route::post('product/{product}', 'CartController@removeCart')->name('cart.remove');
 Route::get('/checkout/{amount}', 'CartController@checkout')->name('cart.checkout')->middleware('auth');
 Route::post('/charge', 'CartController@charge')->name('cart.charge');
-Route::get('/orders', 'CartController@order')->name('order')->middleware('auth');
+Route::get('/order', 'CartController@order')->name('order')->middleware('auth');
 Route::get('all/products', 'FrontProductListController@moreProducts')->name('more.product');
+
+//Route::get('/orders/{userid}/{orderid}', 'CartController@viewUserOrder')->name('user.order');
+Route::get('/orders/{userid}/{orderid}','CartController@viewUserOrder')->name('user.order');
+Route::get('/orders', 'CartController@userOrder')->name('order.index');
+
+
